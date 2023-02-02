@@ -9,8 +9,11 @@ import os
 import dlib
 import cv2
 import numpy as np
+import time
+
 
 dlib.DLIB_USE_CUDA = False
+
 
 
 # ****************************************************************************************
@@ -19,6 +22,7 @@ dlib.DLIB_USE_CUDA = False
 def calculate_distance(descriptor1 = None ,descriptor2 = None):
     """
 Calculates the Euclidean distance between two face descriptors.
+The computed distance represents the degree of similarity between two faces.
 
 Args:
     descriptor1 (list): The first descriptor, represented as a list of numbers.
@@ -38,7 +42,7 @@ def get_face_descriptors(frame= None ,
                          face_detector_path = None, 
                          shape_predictor = None, 
                          face_recognizer = None , 
-                         jitter = 1 ):
+                         upsampling = 1 ):
 
     face_descriptors = []
     if detection_scheme == 'cnn':
@@ -63,7 +67,7 @@ def get_face_descriptors(frame= None ,
     
     if  detection_scheme == 'HOG':
         face_detector = dlib.get_frontal_face_detector()
-        faces = face_detector(frame,1)
+        faces = face_detector(frame,upsampling)
     
         print("Number of faces detected: {}".format(len(faces)))
         for i, d in enumerate(faces):   
@@ -88,7 +92,7 @@ def get_database_face_descriptors(database_path = '',
                                   face_detector_path = None, 
                                   shape_predictor = None, 
                                   face_recognizer = None , 
-                                  jitter = 1):
+                                  upsampling = 1):
     db_descriptors = []
     for i,f in enumerate(os.listdir(database_path)):
 
@@ -98,7 +102,7 @@ def get_database_face_descriptors(database_path = '',
                                                 face_detector_path = face_detector_path, 
                                                 shape_predictor = shape_predictor, 
                                                 face_recognizer = face_recognizer ,
-                                                jitter = 1)
+                                                upsampling = 1)
         
         face_descriptors = face_descriptors[0]
         face_descriptors['name']= f[:-4]
@@ -109,7 +113,6 @@ def get_database_face_descriptors(database_path = '',
     return db_descriptors
         
 # ****************************************************************************************
-
 
 def recognize(target_descriptors = None, database_descriptors = None, max_dist_thresh = 0.55 ):
     
@@ -131,3 +134,5 @@ def recognize(target_descriptors = None, database_descriptors = None, max_dist_t
         
 # ****************************************************************************************
     
+
+

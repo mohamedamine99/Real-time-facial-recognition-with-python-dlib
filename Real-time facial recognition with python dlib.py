@@ -16,9 +16,11 @@ shape_predictor_path = os.getcwd() + '/models/shape_predictor_68_face_landmarks_
 face_recognition_model_path = os.getcwd() + "/models/dlib_face_recognition_resnet_model_v1.dat"
 output_path = os.getcwd() +'/Outputs'
 
-cnn_face_detector = dlib.cnn_face_detection_model_v1(cnn_model_path)
+
 predictor = dlib.shape_predictor(shape_predictor_path)
 face_rec = dlib.face_recognition_model_v1(face_recognition_model_path)
+
+cnn_face_detector = dlib.cnn_face_detection_model_v1(cnn_model_path)
 HOG_face_detector = dlib.get_frontal_face_detector()
 
 
@@ -28,7 +30,8 @@ db_face_descriptors = get_database_face_descriptors(database_path = database_pat
                                                     detection_scheme = 'cnn',
                                                     face_detector_path = cnn_model_path, 
                                                     shape_predictor = predictor, 
-                                                    face_recognizer = face_rec , jitter = 1)
+                                                    face_recognizer = face_rec , 
+                                                    upsampling = 1)
 print(time.time() - beg)
 
 
@@ -110,7 +113,7 @@ while(True):
                                            detection_scheme='HOG',
                                            shape_predictor = predictor, 
                                            face_recognizer = face_rec , 
-                                           jitter = 1)
+                                           upsampling = 1)
     
     recognize(target_descriptors = descriptors,
               database_descriptors = db_face_descriptors, 
