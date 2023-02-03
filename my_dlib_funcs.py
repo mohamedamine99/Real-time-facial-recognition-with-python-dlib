@@ -43,7 +43,28 @@ def get_face_descriptors(frame= None ,
                          shape_predictor = None, 
                          face_recognizer = None , 
                          upsampling = 1 ):
+    """Compute face descriptors for faces in an image.
 
+    Args:
+        frame: a numpy array representing an image.
+        detection_scheme: a string indicating the face detection scheme to be
+            used, either 'cnn' or 'HOG'.
+        face_detector_path: the path to the cnn face detection model.
+        shape_predictor: a dlib shape predictor object.
+        face_recognizer: a dlib face recognizer object.
+        upsampling: the upsampling factor to be used in the HOG face detection
+            scheme.
+
+    Returns:
+        A list of dictionaries, each containing two items:
+        - 'face descriptor': a numpy array representing the 128-dimensional face
+            descriptor.
+        - 'bounding box': the bounding box of the face in the image.
+
+    Raises:
+        None
+    """
+    
     face_descriptors = []
     if detection_scheme == 'cnn':
         
@@ -93,6 +114,25 @@ def get_database_face_descriptors(database_path = '',
                                   shape_predictor = None, 
                                   face_recognizer = None , 
                                   upsampling = 1):
+    
+    """This function is used to obtain face descriptors for all images in a given database path.
+
+Args:
+- database_path: str, the path to the directory that contains the images.
+- detection_scheme: str, the detection scheme to be used either "cnn" or "HOG".
+- face_detector_path: the path to the cnn face detector, required only if the detection_scheme is "cnn".
+- shape_predictor: a dlib shape predictor, required for both detection_schemes.
+- face_recognizer: a dlib face recognizer.
+- upsampling: int, the number of times to upsample the image prior to applying face detection, required only if the detection_scheme is "HOG".
+
+Returns:
+- db_descriptors: list, a list of dictionaries, each dictionary contain the following keys:
+    - face descriptor: numpy array, the face descriptor.
+    - bounding box: dlib rect, the bounding box of the face in the image.
+    - name: str, the name of the person.
+    - img path: str, the path to the image in the database.
+    """
+
     db_descriptors = []
     for i,f in enumerate(os.listdir(database_path)):
 
@@ -115,6 +155,26 @@ def get_database_face_descriptors(database_path = '',
 # ****************************************************************************************
 
 def recognize(target_descriptors = None, database_descriptors = None, max_dist_thresh = 0.55 ):
+    
+    """Recognize faces in the target descriptors.
+
+Given the target descriptors and database descriptors, the function finds the
+best match and assigns the name to the target descriptors if the distance between
+them is less than the maximum distance threshold.
+
+Args:
+    target_descriptors: A list of dictionaries, each containing the face descriptor
+        and bounding box of the target face.
+    database_descriptors: A list of dictionaries, each containing the face descriptor
+        and name of the database face.
+    max_dist_thresh: A float, representing the maximum distance threshold for face
+        recognition. A face is considered recognized if the distance between the
+        target face descriptor and the database face descriptor is less than the
+        threshold.
+
+Returns:
+    None
+    """
     
     for target_descriptor in target_descriptors:
         distances = []
