@@ -41,6 +41,7 @@ def get_face_descriptors(frame= None ,
                          face_detector_path = None, 
                          shape_predictor = None, 
                          face_recognizer = None , 
+                         num_jitters = 1,
                          upsampling = 1 ):
     """Compute face descriptors for faces in an image.
 
@@ -74,7 +75,8 @@ def get_face_descriptors(frame= None ,
         for i, d in enumerate(faces):   
             cache = {}
             shape = shape_predictor(frame, d.rect)
-            face_descriptor = face_recognizer.compute_face_descriptor(frame, shape)                       
+            face_descriptor = face_recognizer.compute_face_descriptor(frame, shape ,
+                                                                      num_jitters =num_jitters)                       
             
             cache["face descriptor"] = face_descriptor
             cache["bounding box"] = d.rect
@@ -93,7 +95,8 @@ def get_face_descriptors(frame= None ,
         for i, d in enumerate(faces):   
             cache = {}
             shape = shape_predictor(frame, d)
-            face_descriptor = face_recognizer.compute_face_descriptor(frame, shape)                       
+            face_descriptor = face_recognizer.compute_face_descriptor(frame, shape,
+                                                                      num_jitters = num_jitters)                       
             
             cache["face descriptor"] = face_descriptor
             cache["bounding box"] = d
@@ -112,6 +115,7 @@ def get_database_face_descriptors(database_path = '',
                                   face_detector_path = None, 
                                   shape_predictor = None, 
                                   face_recognizer = None , 
+                                  num_jitters = 10,
                                   upsampling = 1):
     
     """This function is used to obtain face descriptors for all images in a given database path.
@@ -133,7 +137,7 @@ Returns:
     """
 
     db_descriptors = []
-    for i,f in enumerate(os.listdir(database_path)):
+    for i,f in enumerate(os.listdir(database_path)): #☺ **************************************
 
         img = dlib.load_rgb_image(database_path +'/' + f)
         face_descriptors = get_face_descriptors(img,
@@ -141,6 +145,7 @@ Returns:
                                                 face_detector_path = face_detector_path, 
                                                 shape_predictor = shape_predictor, 
                                                 face_recognizer = face_recognizer ,
+                                                num_jitters = num_jitters,
                                                 upsampling = 1)
         
         face_descriptors = face_descriptors[0]

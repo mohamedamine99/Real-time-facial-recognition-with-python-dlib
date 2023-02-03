@@ -60,10 +60,10 @@ print(len(os.listdir(test_path)))
  # define a video capture object
 cap = cv2.VideoCapture(0)
 
+output_file = output_path + '/outputs.avi'
  # define an output VideoWriter  object
-out = cv2.VideoWriter('Me_output_vid.avi', 
-                         cv2.VideoWriter_fourcc(*'MP43'),
-                         1, (480, 640))
+out = cv2.VideoWriter(output_file,
+cv2.VideoWriter_fourcc(*"MJPG"), 4,(640,480))
 
 # Check if the webcam is opened correctly
 if not cap.isOpened():
@@ -98,7 +98,7 @@ while cap.isOpened():
     
     recognize(target_descriptors = descriptors,
               database_descriptors = db_face_descriptors, 
-              max_dist_thresh = 0.58 )
+              max_dist_thresh = 0.7 )
     
     # get the details for each detected face in the frame i.e bounding boxes and name
     for desc in descriptors:
@@ -121,7 +121,7 @@ while cap.isOpened():
     # calculate FPS
     end = time.time()
     fps = 1/(end - beg)
-
+    out.write(frame)
     print(f'FPS = {fps:.2f}')
         
         # the 'q' button is set as the
@@ -132,5 +132,6 @@ while cap.isOpened():
 
 # After the loop release the cap object
 cap.release()
+out.release()
 # Destroy all the windows
 cv2.destroyAllWindows()
