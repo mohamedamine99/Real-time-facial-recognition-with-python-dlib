@@ -30,6 +30,7 @@ cnn_face_detector = dlib.cnn_face_detection_model_v1(cnn_model_path)
 HOG_face_detector = dlib.get_frontal_face_detector()
 
 
+# get the reference face descriptors from the database directory
 
 beg = time.time()
 db_face_descriptors = get_database_face_descriptors(database_path = database_path,
@@ -41,6 +42,7 @@ db_face_descriptors = get_database_face_descriptors(database_path = database_pat
 print(time.time() - beg)
 
 
+# display some useful info for debugging
 
 print(len(db_face_descriptors))
 print(type(db_face_descriptors))
