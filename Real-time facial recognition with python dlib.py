@@ -56,21 +56,34 @@ print(len(os.listdir(test_path)))
 
 
  # define a video capture object
-vid = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(0)
 
  # define an output VideoWriter  object
 out = cv2.VideoWriter('Me_output_vid.avi', 
                          cv2.VideoWriter_fourcc(*'MP43'),
                          1, (480, 640))
 
+# Check if the webcam is opened correctly
+if not cap.isOpened():
+    print("Error opening video stream or file")
 
-while(True):
+# Read the video frames
+while cap.isOpened():
+    ret, frame = cap.read()
+
+    # If the frame was not read successfully, break the loop
+    if not ret:
+        print("Error reading frame")
+        break
       
+    # start recording time (to calculate FPS later)
+    beg = time.time()
+    print(frame.shape)
+
+
     # Capture the video frame
     # by frame
-    beg = time.time()
-    ret, frame = vid.read()
-    print(frame.shape)
+    ret, frame = cap.read()
     #frame = cv2.resize(frame,(320,240))
     # Display the resulting frame
     #cv2.imshow('frame', frame)
@@ -85,22 +98,28 @@ while(True):
               database_descriptors = db_face_descriptors, 
               max_dist_thresh = 0.58 )
     
+    # get the details for each detected face in the frame i.e bounding boxes and name
     for desc in descriptors:
         print(len(descriptors))
         print(desc["name"])
+        
+        # get bounding box coordinates
         left = desc["bounding box"].left()
         top = desc["bounding box"].top()
         right = desc["bounding box"].right()
         bottom = desc["bounding box"].bottom()
         
-        img_resized  = cv2.rectangle(frame ,(left,top),(right,bottom),(255,0,0),thickness = 4)
-        img_resized  = cv2.putText(frame , desc["name"], (left - 5 ,top - 5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-        #out.write(frame)
-        
-    cv2.imshow("recognising", frame )
+        # put the face label and bounding box in the final ouput frame
+        frame  = cv2.rectangle(frame ,(left,top),(right,bottom),(255,0,0),thickness = 4)
+        frame  = cv2.putText(frame , desc["name"], (left - 5 ,top - 5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+
+    # display webcam stream with results        
+    cv2.imshow("Output", frame )
+    
+    # calculate FPS
     end = time.time()
     fps = 1/(end - beg)
-    i+=1
+
     print(f'FPS = {fps:.2f}')
         
         # the 'q' button is set as the
@@ -110,6 +129,6 @@ while(True):
         break
 
 # After the loop release the cap object
-vid.release()
+cap.release()
 # Destroy all the windows
 cv2.destroyAllWindows()
