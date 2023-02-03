@@ -9,7 +9,6 @@ import os
 import dlib
 import cv2
 import numpy as np
-import time
 
 
 dlib.DLIB_USE_CUDA = False

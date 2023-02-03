@@ -113,7 +113,7 @@ while cap.isOpened():
         
         # put the face label and bounding box in the final ouput frame
         frame  = cv2.rectangle(frame ,(left,top),(right,bottom),(255,0,0),thickness = 4)
-        frame  = cv2.putText(frame , desc["name"], (left - 5 ,top - 5), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+        frame  = cv2.putText(frame , desc["name"], (left - 5 ,top - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 
     # display webcam stream with results        
     cv2.imshow("Output", frame )
