@@ -6,7 +6,6 @@ Created on Fri Feb  3 11:59:23 2023
 """
 from my_dlib_funcs import *
 import time 
-import csv
 
 # ************************************************************************************************
 
@@ -39,35 +38,16 @@ db_face_descriptors = get_database_face_descriptors(database_path = database_pat
                                                     shape_predictor = predictor, 
                                                     face_recognizer = face_rec , 
                                                     upsampling = 1)
+
+print(np.array(db_face_descriptors[1]["face descriptor"]).shape)
 print(time.time() - beg)
 
-
-# ************************************************************************************************
-
-header = list(db_face_descriptors[0].keys())
-print(f"keys = {header}")
-
-
-
-row = db_face_descriptors[0].values()
-print(row)
-row = list(row)
-print('*********************************************************************************************')
-print(row)
 
 
 filename = 'people.csv'
 
-with open(filename, 'w', newline='') as file:
-    writer = csv.writer(file)
-    writer.writerow(header)
-    #rows = [db_face_descriptor.values() for db_face_descriptor in db_face_descriptors]
-    writer.writerows(row)
+save_db_to_csv(filename = filename , db_face_descriptors = db_face_descriptors)
 
+db_face_descriptors = read_db_csv(filename = filename)
 
-# filename = 'people.csv'
-
-# with open(filename, 'w', newline='') as file:
-#     writer = csv.writer(file)
-#     writer.writerow(header)
-#     writer.writerows(rows)
+print(db_face_descriptors[1])

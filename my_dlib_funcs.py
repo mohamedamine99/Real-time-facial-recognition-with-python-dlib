@@ -6,6 +6,7 @@ Created on Wed Feb  1 23:22:54 2023
 """
 
 import os
+import csv
 import dlib
 import cv2
 import numpy as np
@@ -24,14 +25,15 @@ Calculates the Euclidean distance between two face descriptors.
 The computed distance represents the degree of similarity between two faces.
 
 Args:
-    descriptor1 (list): The first descriptor, represented as a list of numbers.
-    descriptor2 (list): The second descriptor, represented as a list of numbers.
+    descriptor1 (list): The first face descriptor, represented as a list of numbers.
+    descriptor2 (list): The second face descriptor, represented as a list of numbers.
 
 Returns:
-    float: The Euclidean distance between the two descriptors.
+    float: The Euclidean distance between the two face descriptors.
 
 
     """
+    
     return np.linalg.norm(np.array(descriptor1) - np.array(descriptor2))
 
 # ****************************************************************************************
@@ -79,9 +81,13 @@ def get_face_descriptors(frame= None ,
                                                                       num_jitters =num_jitters)                       
             
             cache["face descriptor"] = face_descriptor
-            cache["bounding box"] = d.rect
     
+            left = d.rect.left()
+            top = d.rect.top()
+            right = d.rect.right()
+            bottom = d.rect.bottom()
             
+            cache["bounding box"] = (left, top, right, bottom)
             
             face_descriptors.append(cache)
         
@@ -99,8 +105,14 @@ def get_face_descriptors(frame= None ,
                                                                       num_jitters = num_jitters)                       
             
             cache["face descriptor"] = face_descriptor
-            cache["bounding box"] = d
-    
+            
+            left = d.left()
+            top = d.top()
+            right = d.right()
+            bottom = d.bottom()
+            
+            cache["bounding box"] = (left, top, right, bottom)
+            
             
             
             face_descriptors.append(cache)
@@ -199,4 +211,36 @@ Returns:
 # ****************************************************************************************
     
 
+def save_db_to_csv(filename = '', db_face_descriptors = None):
+    header = list(db_face_descriptors[0].keys())
 
+    with open(filename, 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(header)
+        rows = [db_face_descriptor.values() for db_face_descriptor in db_face_descriptors]
+        writer.writerows(rows)
+        
+# ******************************************************************************************
+
+
+
+def read_db_csv(filename = ''):
+    rows = []
+
+    with open(filename, 'r') as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            row["bounding box"] = tuple(map(int,tuple(row["bounding box"][1:-1].split(', '))))
+            str_pts =  row["face descriptor"].split('\n')
+            row["face descriptor"] = np.array([float(str_pt) for str_pt in str_pts])
+            # print('***************--------------------------------------')
+            # print(type(row["face descriptor"]))
+            # print(type(row["bounding box"]))
+            # print(row["face descriptor"].shape)
+            # print('***************--------------------------------------')
+    
+            rows.append(row)
+    
+    return rows
+
+# **********************************************************************************************
