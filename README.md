@@ -15,7 +15,7 @@ The project is divided into four main scripts:
 
 * `my_dlib_funcs.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/my_dlib_funcs.py) contains all the functions that will be used in the project. These functions handle tasks such as detecting faces, comparing faces, and storing face information in a CSV file.
 
-* `generate db csv.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/generate%20db%20csv.py) takes the profile images in the `database` directory and generates a CSV file (`people.csv`) containing information about each face. The information stored in the CSV file includes the face's encoding, which is a numerical representation of the face that can be used for comparison.
+* `generate db csv.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/generate%20db%20csv.py) converts a database of images (stored in the `databsae` folder) into a CSV file (`people.csv`) by extracting face descriptors and bounding boxes from each image in the directory. The extracted data is organized into dictionaries, which are then written to the CSV file in a structured format with two columns for "bounding box" and "face descriptor". The resulting CSV file can be used for face recognition and machine learning training or prediction. The script provides a convenient and efficient way to access the face data.
 
 * `Real-time facial recognition with python dlib v2.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/Real-time%20facial%20recognition%20with%20python%20dlib%20v2.py) captures video from a webcam and uses the functions in functions.py to recognize faces in real-time. The recognized faces are then displayed on the screen with their names.
 
@@ -27,9 +27,27 @@ In order for this project to work properly you would need to install the followi
 
 * `dlib` : dlib is a powerful library for computer vision and machine learning. It includes tools for facial recognition, including face detection and feature extraction. The library is well optimized and can be used for real-time facial recognition applications.
 * `OpenCV`: OpenCV is an open-source computer vision library. It provides a wide range of image processing and computer vision functions, including face detection, feature extraction, and image manipulation. OpenCV can be used to capture and process live video streams, making it useful for real-time facial recognition applications.
-* `numpy` : numpy is a library for scientific computing in Python. It provides tools for working with arrays, including multi-dimensional arrays, which can be useful for storing image data. For example, an image can be represented as a numpy array, which can be processed and analyzed using numpy functions. We also used it to calculate the euclidian distance between two faces.
+* `numpy` : numpy is a library for scientific computing in Python. It provides tools for  working with arrays, including multi-dimensional arrays, which can be useful for storing image data. For example, an image can be represented as a numpy array, which can be processed and analyzed using numpy functions. We also used it to calculate the euclidian distance between two faces.
 
 ## Code explanation
+ ### my_dlib_funcs.py :
+ 
+`my_dlib_funcs.py`: contains all the functions that will be used in the project. These functions are as follows :
 
+* `save_db_to_csv`:a function that takes two arguments, `filename` and `db_face_descriptors`. The function converts the information contained in db_face_descriptors into a CSV (Comma-Separated Values) file with the name specified by filename.
 
+* `read_db_csv` : a function that reads a CSV file representing a database of face descriptors. The function takes one argument, a string `filename` representing the name of the input CSV file.
 
+* `recognize` : a function that performs face recognition. It takes three inputs: 
+
+     - `target_descriptors` is a list of dictionaries, each containing the face descriptor and bounding box of the target face.      
+     - `database_descriptors` is a list of dictionaries, each containing the face descriptor and name of the database face.  
+     - `max_dist_thresh` is a float representing the maximum distance threshold for face recognition. A face is considered recognized if the distance between the target face descriptor and the database face descriptor is less than the threshold.
+
+     - This function does not return any value, but it updates the ` "name" `field in the dictionaries of the target_descriptors list.
+
+* `calculate_distance` : a function that Calculates the Euclidean distance between two face descriptors. The computed distance represents the degree of similarity between two faces. It takes two arguments : the two face descriptors we want to compare.
+
+* `get_face_descriptors` : a function that computes face descriptors for each of the faces in a given image . It returns the list face_descriptors containing dictionaries with face descriptors and bounding boxes of faces in the image.
+
+* `get_database_face_descriptors` :This function is used to obtain face descriptors for all images in a given database path. It is mainly used to extract face descriptors from our database.
