@@ -21,4 +21,15 @@ The project is divided into four main scripts:
 
 * `Video facial recognition with python dlib.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/Video%20facial%20recognition%20with%20python%20dlib.py) processes a predefined video and uses the functions in functions.py to recognize faces in the video. The recognized faces are then displayed on the screen with their names.
 
+## Requirements
+
+In order for this project to work properly you would need to install the following libraries python :
+
+* `dlib` : dlib is a powerful library for computer vision and machine learning. It includes tools for facial recognition, including face detection and feature extraction. The library is well optimized and can be used for real-time facial recognition applications.
+* `OpenCV`: OpenCV is an open-source computer vision library. It provides a wide range of image processing and computer vision functions, including face detection, feature extraction, and image manipulation. OpenCV can be used to capture and process live video streams, making it useful for real-time facial recognition applications.
+* `numpy` : numpy is a library for scientific computing in Python. It provides tools for working with arrays, including multi-dimensional arrays, which can be useful for storing image data. For example, an image can be represented as a numpy array, which can be processed and analyzed using numpy functions. We also used it to calculate the euclidian distance between two faces.
+
+## Code explanation
+
+
 
