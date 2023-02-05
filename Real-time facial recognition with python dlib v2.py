@@ -1,8 +1,23 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Feb  1 23:22:10 2023
+The following python script utilizes the dlib library for facial recognition.
+ The script first reads in a database of faces stored in a saved CSV file. 
+ The database contains face descriptors and bounding boxes for each face detected in a set of images.
+Once the database has been loaded, the script then uses the dlib library to 
+perform real-time facial recognition on a live stream from a PC webcam. 
+The webcam captures images in real-time, and the dlib library is used to detect faces in each image 
+and compare them to the faces in the database.
 
-@author: ASUS
+The script implements a brute nearest neighbor search algorithm to compare 
+the faces detected in the webcam stream to the faces in the database. 
+The algorithm calculates the distance between the face descriptors for each pair of faces
+ and returns the closest match. 
+ If a match is found, the script will display the name of the person in the database 
+ that the live face is closest to.
+
+This script provides a demonstration of how the dlib library can be used for real-time facial recognition. 
+The use of a saved CSV file for storing the face database allows for a flexible and scalable solution, 
+as the database can be easily updated or expanded as needed. 
 """
 import time
 from my_dlib_funcs import *
@@ -30,7 +45,7 @@ cnn_face_detector = dlib.cnn_face_detection_model_v1(cnn_model_path)
 HOG_face_detector = dlib.get_frontal_face_detector()
 
 
-# get the reference face descriptors from the database directory
+# get the reference face descriptors info from the people.csv file
 
 filename = 'people.csv'
 
@@ -56,7 +71,7 @@ print("********************************************************")
  # define a video capture object
 cap = cv2.VideoCapture(0)
 
-output_file = output_path + '/output_2.avi'
+output_file = output_path + '/output.avi'
  # define an output VideoWriter  object
 out = cv2.VideoWriter(output_file,
 cv2.VideoWriter_fourcc(*"MJPG"), 4,(640,480))

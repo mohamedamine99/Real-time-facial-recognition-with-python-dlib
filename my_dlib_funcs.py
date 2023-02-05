@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Feb  1 23:22:54 2023
-
-@author: ASUS
+The Python module contains a suite of functions for 
+working with the dlib library for face recognition.
+ The functions allow for reading and writing face data to and from a CSV database,
+ extracting faces from images, and performing recognition tasks.
+ 
 """
 
 import os
@@ -54,6 +56,8 @@ def get_face_descriptors(frame= None ,
         face_detector_path: the path to the cnn face detection model.
         shape_predictor: a dlib shape predictor object.
         face_recognizer: a dlib face recognizer object.
+        num_jitters: If num_jitters>1 then each face will be randomly jittered slightly num_jitters 
+            times, each run through the 128D projection, and the average used as the face descriptor.  
         upsampling: the upsampling factor to be used in the HOG face detection
             scheme.
 
@@ -138,6 +142,8 @@ Args:
 - face_detector_path: the path to the cnn face detector, required only if the detection_scheme is "cnn".
 - shape_predictor: a dlib shape predictor, required for both detection_schemes.
 - face_recognizer: a dlib face recognizer.
+- num_jitters: If num_jitters>1 then each face will be randomly jittered slightly num_jitters 
+    times, each run through the 128D projection, and the average used as the face descriptor.  
 - upsampling: int, the number of times to upsample the image prior to applying face detection, required only if the detection_scheme is "HOG".
 
 Returns:
@@ -212,6 +218,19 @@ Returns:
     
 
 def save_db_to_csv(filename = '', db_face_descriptors = None):
+
+    """Saves the given database of face descriptors to a CSV file.
+
+    Args:
+        filename: A string that specifies the name of the output CSV file. If no
+            filename is provided, the default value of an empty string will be used.
+        db_face_descriptors: A list of dictionaries that represent the face
+            descriptors in the database. Each dictionary should have the same keys.
+
+    Returns:
+        None
+    """
+    
     header = list(db_face_descriptors[0].keys())
 
     with open(filename, 'w', newline='') as file:
@@ -225,6 +244,17 @@ def save_db_to_csv(filename = '', db_face_descriptors = None):
 
 
 def read_db_csv(filename = ''):
+    """Reads a CSV file that represents a database of face descriptors.
+
+    Args:
+        filename: A string that specifies the name of the input CSV file. If no
+            filename is provided, the default value of an empty string will be used.
+
+    Returns:
+        A list of dictionaries that represent the face descriptors in the database.
+        Each dictionary will have the following keys: "bounding box", "face descriptor".
+        "bounding box" will be a tuple of integers, and "face descriptor" will be a numpy array of floats.
+    """
     rows = []
 
     with open(filename, 'r') as f:
@@ -233,11 +263,7 @@ def read_db_csv(filename = ''):
             row["bounding box"] = tuple(map(int,tuple(row["bounding box"][1:-1].split(', '))))
             str_pts =  row["face descriptor"].split('\n')
             row["face descriptor"] = np.array([float(str_pt) for str_pt in str_pts])
-            # print('***************--------------------------------------')
-            # print(type(row["face descriptor"]))
-            # print(type(row["bounding box"]))
-            # print(row["face descriptor"].shape)
-            # print('***************--------------------------------------')
+
     
             rows.append(row)
     
