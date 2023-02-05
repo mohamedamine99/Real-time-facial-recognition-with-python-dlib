@@ -71,10 +71,14 @@ print("********************************************************")
  # define a video capture object
 cap = cv2.VideoCapture(0)
 
-output_file = output_path + '/output.avi'
+width  = int(cap.get(3))  # float `width`
+height = int(cap.get(4))  # float `height`
+
+output_file = output_path + '/output___.avi'
  # define an output VideoWriter  object
 out = cv2.VideoWriter(output_file,
-cv2.VideoWriter_fourcc(*"MJPG"), 4,(640,480))
+                      cv2.VideoWriter_fourcc(*"MJPG"), 
+                      4,(width,height))
 
 # Check if the webcam is opened correctly
 if not cap.isOpened():
