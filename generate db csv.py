@@ -46,7 +46,7 @@ print(time.time() - beg)
 
 
 
-filename = 'people_2.csv'
+filename = 'people.csv'
 
 save_db_to_csv(filename = filename , db_face_descriptors = db_face_descriptors)
 
