@@ -51,3 +51,16 @@ In order for this project to work properly you would need to install the followi
 * `get_face_descriptors` : a function that computes face descriptors for each of the faces in a given image . It returns the list face_descriptors containing dictionaries with face descriptors and bounding boxes of faces in the image.
 
 * `get_database_face_descriptors` :This function is used to obtain face descriptors for all images in a given database path. It is mainly used to extract face descriptors from our database.
+
+ ### generate db csv.py :
+ 
+ This python script converts a database of images into a CSV file  by extracting face descriptors and bounding boxes from each image in the directory. 
+ The extracted data is organized into dictionaries, which are then written to the CSV file in a structured format with four columns for `"name"`, `"img path"` , `"bounding box"` and `"face descriptor"`.
+ The resulting CSV file can be used for face recognition and machine learning training or prediction. 
+ The script provides a convenient and efficient way to access the face data.
+ 
+1. First, it imports the module `my_dlib_funcs` and the time library.
+2. It sets the path to the directory containing the reference images, and the paths to the models used for face detection, landmark extraction, and face recognition.
+3. The code then loads the shape predictor and face recognition models using dlib. It also loads a face detection model based on the Convolutional Neural Network (CNN). The CNN model is the one used to extract features from our database since it's much more accurate (though much more computationally expensive) than it's alternative HOG 
+4. The code calls the function `get_database_face_descriptors` to obtain face descriptors for all the images in the reference database. This function uses the loaded face detection and face recognition models.It then prints the shape of the face descriptor for one of the images in the reference database, and the time it took to obtain all the face descriptors (for debugging).
+6. Finally, it saves the face descriptors to a CSV file using the `save_db_to_csv` function and then reads the saved data back into memory using the "read_db_csv" function (for debugging).
