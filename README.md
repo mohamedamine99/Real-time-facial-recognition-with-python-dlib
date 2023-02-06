@@ -71,11 +71,14 @@ The `Real-time facial recognition with python dlib v2.py` python script utilizes
 1. The script first reads in a database of faces stored in a saved CSV file. The database contains face descriptors and bounding boxes for each face detected in a set of images.
 
 2. It sets the path to the directory containing the paths to the models used for face detection, landmark extraction, and face recognition and the paths to the output folder.
-3. The code then loads the shape predictor and face recognition models using dlib. It also loads a face detection model based on the Histogram of Oriented Gradients (HOG). The HOG model is the one used to extract features from our real-time video frames since it's much faster (much less computationally expensive but less accurate) than it's alternative CNN. 
 
-4. Once the database has been loaded, the script then uses the dlib library to perform real-time facial recognition on a live stream from a PC webcam. The webcam captures images in real-time, and the `get_face_descriptors` function is used to detect faces in each image to compare them to the faces in the database.
+3. The code then loads the shape predictor and face recognition models using dlib. It also loads a face detection model based on the Histogram of Oriented Gradients (HOG). The HOG model is the one used to extract features from our real-time video frames since it's much faster (much less computationally expensive but less accurate) than it's alternative CNN (Convolutional Neural Networks).
 
-5. The `recognize` function compares the faces detected in the webcam stream to the faces in the database. 
+4. The database is loaded using the `read_db_csv`.
+
+5. The script then uses the opencv functionalities so that The webcam captures images in real-time, and the `get_face_descriptors` function to detect faces in each image to compare them to the faces in the database.
+
+6. The `recognize` function compares the faces detected in the webcam stream to the faces in the database. 
 The algorithm calculates the distance between the face descriptors for each pair of faces and returns the closest match. 
 If a match is found, the script will display the name of the person in the database that the live face is closest to else it would display `"UNKNOWN"`.
 
