@@ -64,3 +64,26 @@ In order for this project to work properly you would need to install the followi
 3. The code then loads the shape predictor and face recognition models using dlib. It also loads a face detection model based on the Convolutional Neural Network (CNN). The CNN model is the one used to extract features from our database since it's much more accurate (though much more computationally expensive) than it's alternative HOG 
 4. The code calls the function `get_database_face_descriptors` to obtain face descriptors for all the images in the reference database. This function uses the loaded face detection and face recognition models.It then prints the shape of the face descriptor for one of the images in the reference database, and the time it took to obtain all the face descriptors (for debugging).
 6. Finally, it saves the face descriptors to a CSV file using the `save_db_to_csv` function and then reads the saved data back into memory using the "read_db_csv" function (for debugging).
+
+ ### Real-time facial recognition with python dlib v2.py:
+ 
+The `Real-time facial recognition with python dlib v2.py` python script utilizes the dlib library for facial recognition for real-time video stream fom a webcam.
+1. The script first reads in a database of faces stored in a saved CSV file. The database contains face descriptors and bounding boxes for each face detected in a set of images.
+
+2. It sets the path to the directory containing the paths to the models used for face detection, landmark extraction, and face recognition and the paths to the output folder.
+3. The code then loads the shape predictor and face recognition models using dlib. It also loads a face detection model based on the Histogram of Oriented Gradients (HOG). The HOG model is the one used to extract features from our real-time video frames since it's much faster (much less computationally expensive but less accurate) than it's alternative CNN. 
+
+4. Once the database has been loaded, the script then uses the dlib library to perform real-time facial recognition on a live stream from a PC webcam. The webcam captures images in real-time, and the `get_face_descriptors` function is used to detect faces in each image to compare them to the faces in the database.
+
+5. The `recognize` function compares the faces detected in the webcam stream to the faces in the database. 
+The algorithm calculates the distance between the face descriptors for each pair of faces and returns the closest match. 
+If a match is found, the script will display the name of the person in the database that the live face is closest to else it would display `"UNKNOWN"`.
+
+
+This script provides a demonstration of how the dlib library can be used for real-time facial recognition. 
+The use of a saved CSV file for storing the face database allows for a flexible and scalable solution,as the database can be easily updated or expanded as needed. 
+
+ ### Video facial recognition with python dlib.py :
+The `Video facial recognition with python dlib.py` python script utilizes the dlib library for facial recognition for video stream fom a video file.
+It follows the same steps as the `Real-time facial recognition with python dlib v2.py` python script.
+
