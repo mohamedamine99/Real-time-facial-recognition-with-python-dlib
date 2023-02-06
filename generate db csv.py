@@ -25,13 +25,17 @@ face_recognition_model_path = os.getcwd() + "/models/dlib_face_recognition_resne
 predictor = dlib.shape_predictor(shape_predictor_path)
 face_rec = dlib.face_recognition_model_v1(face_recognition_model_path)
 
-# Load the CNN and HOG face detection models
+# Load the CNN detection model
 
 cnn_face_detector = dlib.cnn_face_detection_model_v1(cnn_model_path)
-HOG_face_detector = dlib.get_frontal_face_detector()
 
 
 # get the reference face descriptors from the database directory
+
+
+# The CNN model is the one used to extract features from our database
+# since it's much more accurate (and much more computationally expensive)
+# than it's alternative HOG
 
 beg = time.time()
 db_face_descriptors = get_database_face_descriptors(database_path = database_path,

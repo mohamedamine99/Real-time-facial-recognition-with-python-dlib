@@ -30,7 +30,6 @@ test_path = os.getcwd() + '/testing imgs'
 output_path = os.getcwd() +'/Outputs'
 
 # Set models paths
-cnn_model_path = os.getcwd() + '/models/mmod_human_face_detector.dat'
 shape_predictor_path = os.getcwd() + '/models/shape_predictor_68_face_landmarks_GTX.dat'
 face_recognition_model_path = os.getcwd() + "/models/dlib_face_recognition_resnet_model_v1.dat"
 
@@ -41,7 +40,6 @@ face_rec = dlib.face_recognition_model_v1(face_recognition_model_path)
 
 # Load the CNN and HOG face detection models
 
-cnn_face_detector = dlib.cnn_face_detection_model_v1(cnn_model_path)
 HOG_face_detector = dlib.get_frontal_face_detector()
 
 
