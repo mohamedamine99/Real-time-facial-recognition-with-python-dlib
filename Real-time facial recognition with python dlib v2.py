@@ -24,6 +24,8 @@ from my_dlib_funcs import *
 
 print(os.getcwd())
 
+
+
 # Set working paths
 database_path =  os.getcwd() + '/database'
 test_path = os.getcwd() + '/testing imgs'
@@ -32,6 +34,7 @@ output_path = os.getcwd() +'/Outputs'
 # Set models paths
 shape_predictor_path = os.getcwd() + '/models/shape_predictor_68_face_landmarks_GTX.dat'
 face_recognition_model_path = os.getcwd() + "/models/dlib_face_recognition_resnet_model_v1.dat"
+cnn_model_path = os.getcwd() + '/models/mmod_human_face_detector.dat'
 
 # Load the shape predictor and face recognition models
 
@@ -41,6 +44,7 @@ face_rec = dlib.face_recognition_model_v1(face_recognition_model_path)
 # Load the CNN and HOG face detection models
 
 HOG_face_detector = dlib.get_frontal_face_detector()
+cnn_face_detector = dlib.cnn_face_detection_model_v1(cnn_model_path)
 
 
 # get the reference face descriptors info from the people.csv file
@@ -104,7 +108,7 @@ while cap.isOpened():
     #cv2.imshow('frame', frame)
         
     descriptors = get_face_descriptors(frame  ,                                            
-                                       detection_scheme='HOG',
+                                       detection_scheme='HOG',                         
                                        shape_predictor = predictor, 
                                        face_recognizer = face_rec , 
                                        upsampling = 1)

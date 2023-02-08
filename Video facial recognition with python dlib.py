@@ -3,6 +3,8 @@ from my_dlib_funcs import *
 
 print(os.getcwd())
 
+
+SCALING_FACTOR = 0.4
 # Set working paths
 database_path =  os.getcwd() + '/database'
 test_path = os.getcwd() + '/testing vids'
@@ -26,7 +28,7 @@ HOG_face_detector = dlib.get_frontal_face_detector()
 
 # get the reference face descriptors info from the people.csv file
 
-filename = 'people_2.csv'
+filename = 'people.csv'
 
 beg = time.time()
 db_face_descriptors = read_db_csv(filename = filename)
@@ -51,14 +53,17 @@ print("********************************************************")
 test_video_file = test_path + '/test_vid_1.MP4'
  # define a video capture object
 cap = cv2.VideoCapture(test_video_file)
-width  = int(cap.get(3))  # float `width`
-height = int(cap.get(4))  # float `height`
+
+width  = int(cap.get(3) )  # get `width` 
+height = int(cap.get(4) )  # get `height` 
+
+
 print("***********************************************************")
 
 print(width,height)
 print("***********************************************************")
 
-output_file = output_path + '/video_ouput.avi'
+output_file = output_path + '/video_ouput_2.avi'
  # define an output VideoWriter  object
 out = cv2.VideoWriter(output_file,
                       cv2.VideoWriter_fourcc(*"MJPG"),
@@ -85,16 +90,14 @@ while cap.isOpened():
     print(frame.shape)
     print(width,height)
 
-
-
     # Capture the video frame
     # by frame
     ret, frame = cap.read()
-    #frame = cv2.resize(frame,(320,240))
+    frame_resized = cv2.resize(frame,(int(width* SCALING_FACTOR)  , int(height * SCALING_FACTOR)))
     # Display the resulting frame
     #cv2.imshow('frame', frame)
         
-    descriptors = get_face_descriptors(frame  ,                                            
+    descriptors = get_face_descriptors(frame_resized  ,                                            
                                        detection_scheme='HOG',
                                        shape_predictor = predictor, 
                                        face_recognizer = face_rec , 
@@ -110,10 +113,10 @@ while cap.isOpened():
         print(desc["name"])
         
         # get bounding box coordinates
-        left = desc["bounding box"][0]
-        top = desc["bounding box"][1]
-        right = desc["bounding box"][2]
-        bottom = desc["bounding box"][3]
+        left = int(desc["bounding box"][0] / SCALING_FACTOR)
+        top = int(desc["bounding box"][1]/ SCALING_FACTOR)
+        right = int(desc["bounding box"][2]/ SCALING_FACTOR)
+        bottom = int(desc["bounding box"][3]/ SCALING_FACTOR)
         
         # put the face label and bounding box in the final ouput frame
         frame  = cv2.rectangle(frame ,(left,top),(right,bottom),(255,0,0),thickness = 4)
@@ -121,6 +124,7 @@ while cap.isOpened():
 
     # display webcam stream with results        
     cv2.imshow("Output", frame )
+    #cv2.imshow("Output", frame_resized )
     
     # calculate FPS
     end = time.time()
