@@ -2,8 +2,8 @@
 
 
 <p align="center">
-  <img src="https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/Outputs/video_ouput%20GIF.gif" width="400" height="200">
-  <img src="https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/Outputs/webcam_output%20GIF.gif" width="400" height="200">
+  <img src="https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/Outputs/video_ouput%20GIF.gif" width="400" height="275">
+  <img src="https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/Outputs/webcam_output%20GIF.gif" width="400" height="275">
 </p>
 
 <!-- TABLE OF CONTENTS -->
