@@ -1,3 +1,10 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Feb  9 20:00:04 2023
+
+@author: ASUS
+"""
+
 """
 This python script converts a database of images into a CSV file 
 by extracting face descriptors and bounding boxes from each image in the directory. 
@@ -30,30 +37,16 @@ face_rec = dlib.face_recognition_model_v1(face_recognition_model_path)
 cnn_face_detector = dlib.cnn_face_detection_model_v1(cnn_model_path)
 
 
-# get the reference face descriptors from the database directory
 
 
-# The CNN model is the one used to extract features from our database
-# since it's much more accurate (and much more computationally expensive)
-# than it's alternative HOG
-
-beg = time.time()
-db_face_descriptors = get_database_face_descriptors(database_path = database_path,
-                                                    detection_scheme = 'cnn',
-                                                    face_detector_path = cnn_model_path, 
-                                                    shape_predictor = predictor, 
-                                                    face_recognizer = face_rec , 
-                                                    upsampling = 1)
-
-print(np.array(db_face_descriptors[1]["face descriptor"]).shape)
-print(time.time() - beg)
+filename = 'people_2.csv'
 
 
+update_database_descriptors(database_path = database_path,
+                            detection_scheme = 'cnn',
+                            csv_file = filename,
+                            face_detector_path = cnn_model_path, 
+                            shape_predictor = predictor, 
+                            face_recognizer = face_rec , 
+                            upsampling = 1)
 
-filename = 'people.csv'
-
-save_db_to_csv(filename = filename , db_face_descriptors = db_face_descriptors)
-
-db_face_descriptors = read_db_csv(filename = filename)
-
-print(db_face_descriptors[1])

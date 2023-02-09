@@ -270,3 +270,84 @@ def read_db_csv(filename = ''):
     return rows
 
 # **********************************************************************************************
+
+def update_database_descriptors(database_path = '', 
+                                csv_file = '',
+                                detection_scheme = 'cnn',
+                                face_detector_path = '', 
+                                shape_predictor = None, 
+                                face_recognizer = None ,
+                                num_jitters = 10,
+                                upsampling = 1 ):
+    """
+Updates the descriptor information of the faces in the database.
+
+Args:
+    database_path: Path to the folder that contains the images of the people 
+    to be added to the database.
+    
+    csv_file: Path to the csv file that contains the descriptor 
+    information of the people in the database.
+    
+    detection_scheme: The method to use for face detection.
+    
+    face_detector_path: Path to the face detector model file.
+    
+    shape_predictor: A dlib shape predictor object.
+    
+    face_recognizer: A dlib face recognition model object.
+    
+    num_jitters: Number of times to perform face alignment.
+    
+    upsampling: Number of times to upsample the image.
+
+Returns:
+    None
+
+"""
+    
+    db_descriptors = []
+    rows = read_db_csv(filename = csv_file)
+    print(len(rows))
+    csv_names = [row["name"] for row in rows]
+    img_names = [img_name[:-4] for img_name in os.listdir(database_path)]
+    
+    csv_names_paths = [row["img path"] for row in rows]
+    img_names_paths = {img_name[:-4] : img_name for img_name in os.listdir(database_path)}
+    
+    print(csv_names)
+    print(img_names)
+    
+    if len(img_names) > len(csv_names):
+        
+        people_to_add = set(img_names) - set(csv_names)
+        print(f"Adding {len(people_to_add)} new people to {csv_file}")
+        
+        for img_name in people_to_add:
+            img_path = img_names_paths[img_name]
+            img = dlib.load_rgb_image(database_path +'/' + img_path)
+            
+
+            face_descriptors = get_face_descriptors(img,
+                                                    detection_scheme = detection_scheme,
+                                                    face_detector_path = face_detector_path, 
+                                                    shape_predictor = shape_predictor, 
+                                                    face_recognizer = face_recognizer ,
+                                                    num_jitters = num_jitters,
+                                                    upsampling = 1)
+            
+            face_descriptors = face_descriptors[0]
+            face_descriptors['name']= img_name
+            face_descriptors['img path']= database_path +'/' + img_path
+
+            db_descriptors.append(face_descriptors)
+            
+        with open(csv_file, 'a', newline='') as file:
+            writer = csv.writer(file)
+            rows = [db_face_descriptor.values() for db_face_descriptor in db_descriptors]
+            writer.writerows(rows)
+                
+
+                
+            
+        
