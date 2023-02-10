@@ -32,7 +32,7 @@ The project is divided into 6 main scripts:
 
 * `Video facial recognition with python dlib.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/Video%20facial%20recognition%20with%20python%20dlib.py) processes a predefined video and uses the functions in my_dlib_funcs.py to recognize faces in the video. The recognized faces are then displayed on the screen with their names.
 
-* `Real-time tracking and facial recognition with dlib.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/Real-time%20tracking%20and%20facial%20recognition%20with%20dlib.py) processes a predefined video and uses the functions in my_dlib_funcs.py to recognize faces in the webcam stream. Unlike previous scripts, it does not perform full recognition on every single frame, as that can be computationally taxing. Instead, it alternates between detection and recognition for a set number of frames, and tracking for the remaining frames, repeatedly.
+* `Real-time tracking and facial recognition with dlib.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/Real-time%20tracking%20and%20facial%20recognition%20with%20dlib.py) uses the functions in my_dlib_funcs.py to recognize faces in the webcam stream. Unlike previous scripts, it does not perform full recognition on every single frame, as that can be computationally taxing. Instead, it alternates between detection and recognition for a set number of frames, and tracking for the remaining frames, repeatedly.
 
 ## Requirements
 
