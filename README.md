@@ -20,15 +20,19 @@
  
 This repository contains a facial recognition system built with Python and the dlib library.
 The project is an improvement upon a [previous](https://github.com/mohamedamine99/Facial-recognition-with-dlib) implementation and uses the dlib library for facial recognition and the OpenCV library for webcam and video processing. The dlib library provides a pre-trained neural network for face detection, and the OpenCV library provides tools for capturing and processing video.  
-The project is divided into four main scripts:
+The project is divided into 6 main scripts:
 
 * `my_dlib_funcs.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/my_dlib_funcs.py) contains all the functions that will be used in the project. These functions handle tasks such as detecting faces, comparing faces, and storing face information in a CSV file.
 
 * `generate db csv.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/generate%20db%20csv.py) converts a database of images (stored in the `databsae` folder) into a CSV file (`people.csv`) by extracting face descriptors and bounding boxes from each image in the directory. The extracted data is organized into dictionaries, which are then written to the CSV file in a structured format with two columns for "bounding box" and "face descriptor". The resulting CSV file can be used for face recognition and machine learning training or prediction. The script provides a convenient and efficient way to access the face data.
 
+* `updating csv db sample code.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/updating%20csv%20db%20sample%20code.py) converts the new images ,that are not already processed, of database of images (stored in the `databsae` folder) into a CSV file (`people_2.csv` for example) with the same method as above.
+
 * `Real-time facial recognition with python dlib v2.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/Real-time%20facial%20recognition%20with%20python%20dlib%20v2.py) captures video from a webcam and uses the functions in functions.py to recognize faces in real-time. The recognized faces are then displayed on the screen with their names.
 
-* `Video facial recognition with python dlib.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/Video%20facial%20recognition%20with%20python%20dlib.py) processes a predefined video and uses the functions in functions.py to recognize faces in the video. The recognized faces are then displayed on the screen with their names.
+* `Video facial recognition with python dlib.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/Video%20facial%20recognition%20with%20python%20dlib.py) processes a predefined video and uses the functions in my_dlib_funcs.py to recognize faces in the video. The recognized faces are then displayed on the screen with their names.
+
+* `Real-time tracking and facial recognition with dlib.py`: [This script](https://github.com/mohamedamine99/Real-time-facial-recognition-with-python-dlib/blob/main/Real-time%20tracking%20and%20facial%20recognition%20with%20dlib.py) processes a predefined video and uses the functions in my_dlib_funcs.py to recognize faces in the webcam stream. Unlike previous scripts, it does not perform full recognition on every single frame, as that can be computationally taxing. Instead, it alternates between detection and recognition for a set number of frames, and tracking for the remaining frames, repeatedly.
 
 ## Requirements
 
@@ -60,6 +64,9 @@ In order for this project to work properly you would need to install the followi
 * `get_face_descriptors` : a function that computes face descriptors for each of the faces in a given image . It returns the list face_descriptors containing dictionaries with face descriptors and bounding boxes of faces in the image.
 
 * `get_database_face_descriptors` :This function is used to obtain face descriptors for all images in a given database path. It is mainly used to extract face descriptors from our database.
+
+* `update_database_descriptors` :Updates the descriptor information of the faces in the database by appending only new unseen faces data.
+
 
  ### generate db csv.py :
  
