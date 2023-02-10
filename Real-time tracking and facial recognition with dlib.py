@@ -8,6 +8,11 @@ perform real-time facial recognition on a live stream from a PC webcam.
 The webcam captures images in real-time, and the dlib library is used to detect faces in each image 
 and compare them to the faces in the database.
 
+Since the detection process can be computationally expensive, we only make a detection once 
+or twice in n frames and the rest of the n - 2 frames we perform object tracking which is 
+made easier with dlib library, in order to reduce the compute cost and increase FPS throughput.
+
+
 The script implements a brute nearest neighbor search algorithm to compare 
 the faces detected in the webcam stream to the faces in the database. 
 The algorithm calculates the distance between the face descriptors for each pair of faces
@@ -15,7 +20,8 @@ The algorithm calculates the distance between the face descriptors for each pair
  If a match is found, the script will display the name of the person in the database 
  that the live face is closest to.
 
-This script provides a demonstration of how the dlib library can be used for real-time facial recognition. 
+This script provides a demonstration of how the dlib library can be used for
+ real-time facial recognition and multiple objects tracking.
 The use of a saved CSV file for storing the face database allows for a flexible and scalable solution, 
 as the database can be easily updated or expanded as needed. 
 """
@@ -78,7 +84,10 @@ cap = cv2.VideoCapture(0)
 width  = int(cap.get(3))  # float `width`
 height = int(cap.get(4))  # float `height`
 
+
+# setting up video output filename and path 
 output_file = output_path + '/output_tracking.avi'
+
  # define an output VideoWriter  object
 out = cv2.VideoWriter(output_file,
                       cv2.VideoWriter_fourcc(*"MJPG"), 
@@ -89,13 +98,11 @@ if not cap.isOpened():
     print("Error opening video stream or file")
 
 
-
-
-
-# trackers = []
-# labels = []
-
+# the recognition is performed k times for every skip frames
+k = 2
 skip = 30
+
+# start i counter
 i = -10
 wait_cam = True
 
@@ -117,12 +124,12 @@ while cap.isOpened():
       
     #print(frame.shape)
 
-
+    # wait 10 frames for the webcam to warmup before the starting detections
     if (0>=i>=-10) and wait_cam:
         continue
     wait_cam = False
     
-    if (2>=i>=1):
+    if (k>=i>=1):
         print("**************************************************")
         trackers = []
         labels = []
@@ -185,6 +192,8 @@ while cap.isOpened():
     fps = 1/(end - beg)
     out.write(frame)
     print(f'FPS = {fps:.2f}')
+    
+    # if i == skip : i = 0 we restart the counter
     i = i % skip
 
         
