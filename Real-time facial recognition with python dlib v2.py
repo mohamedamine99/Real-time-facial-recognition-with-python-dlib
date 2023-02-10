@@ -76,7 +76,7 @@ cap = cv2.VideoCapture(0)
 width  = int(cap.get(3))  # float `width`
 height = int(cap.get(4))  # float `height`
 
-output_file = output_path + '/output___.avi'
+output_file = output_path + '/output__azeaz_.avi'
  # define an output VideoWriter  object
 out = cv2.VideoWriter(output_file,
                       cv2.VideoWriter_fourcc(*"MJPG"), 
@@ -88,6 +88,7 @@ if not cap.isOpened():
 
 # Read the video frames
 while cap.isOpened():
+    
     ret, frame = cap.read()
 
     # If the frame was not read successfully, break the loop
@@ -96,13 +97,11 @@ while cap.isOpened():
         break
       
     # start recording time (to calculate FPS later)
-    beg = time.time()
     print(frame.shape)
 
 
     # Capture the video frame
     # by frame
-    ret, frame = cap.read()
     #frame = cv2.resize(frame,(320,240))
     # Display the resulting frame
     #cv2.imshow('frame', frame)
